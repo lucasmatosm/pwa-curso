@@ -7,8 +7,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="manifest" href="manifest.json">
+
+<link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
+<link rel="mask-icon" href="favicon_package_v0.16/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#00bcd4">
+
 </head>
-<body>
+<body id="body">
 <div class="container">
     <header class="py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
@@ -72,6 +81,20 @@
 <script src="library/moment.min.js"></script>
 
 <script src="js/api.js"></script>
+<script src="js/push.js"></script>
+<script src="js/install-banner.js"></script>
+<script>
+    if('serviceWorker' in navigator){
+        window.addEventListener('load', function(){
+            navigator.serviceWorker.register('sw-pwa-news.js')
+            .then(function(registration){
+                    console.log("Registrado com escope", registration)
+            }).catch(function(error){
+                Console.error(error);
+            })
+        });
+    }
+</script>
 
 </body>
 </html>

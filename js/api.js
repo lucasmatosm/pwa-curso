@@ -10,6 +10,45 @@
     var API_KEY = 'apiKey=c5a59e6e745f45849e2e56af4efad07d';
 
     getNews();
+    var permissionNotification = false;
+    if('Notification' in window){
+        permissionNotification = Notification.permission;
+        if(permissionNotification){
+            Notification.requestPermission(function(perm){
+                permissionNotification = perm;
+            });
+        }
+    }
+
+    window.onblur = function onBlur(){
+        console.log('ei volte aqui');
+        if(permissionNotification){
+            setTimeout(function(){
+                navigator.serviceWorker.getRegistration()
+                .then(function(reg){
+                    var options = {
+                        body : 'Não me deixe',
+                        icon: '../favicon_package_v0.16/android-chrome-192x192.png',
+                        badge: '../favicon_package_v0.16/android-chrome-192x192.png',
+                    };
+                    reg.showNotification("EI VOLTE AQUI!", options )
+                })
+            }, 3000)
+        }
+        
+    }
+
+    if("ondevicelight" in window){
+        window.addEventListener("deviceLight", onUpdateDeviceLight)
+    }else{
+        console.log("Faiou")
+    }
+
+    function onUpdateDeviceLight(event){
+        var colorPart = Math.min(255, event.value).toFixed(0);
+        document.getElementById("body").style.backgroundColor = "rgb(" + colorPart + ", " + colorPart + ", " + colorPart + ")"
+
+    }
 
     function getNews() {
         var url = API + ENDPOINT_HEADLINES + 'country=br&' + API_KEY + getCategory();
